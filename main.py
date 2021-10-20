@@ -126,11 +126,13 @@ async def machine_status(ctx):
     await _machine_status(ctx)
 
 
+@commands.has_role("Bot Master")
 @discord_client.command()
 async def start_machine(ctx):
     await _start_machine(ctx)
 
 
+@commands.has_role("Bot Master")
 @discord_client.command()
 async def stop_machine(ctx):
     await _stop_machine(ctx)
@@ -203,6 +205,7 @@ async def _mc_start(ctx=None):
     await _stop_machine(ctx)
 
 
+@commands.has_role("Bot Master")
 @discord_client.command()
 async def mc_rc_connect(ctx, connection_time=300):
     await mc_client.connect()
@@ -213,12 +216,14 @@ async def mc_rc_connect(ctx, connection_time=300):
         await messaging(ctx, "disconnect from rcon")
 
 
+@commands.has_role("Bot Master")
 @discord_client.command()
 async def mc_rc_close(ctx):
     await mc_client.close()
     await messaging(ctx, "disconnect from rcon")
 
 
+@commands.has_role("Bot Master")
 @discord_client.command()
 async def mc_start(ctx):
     await _mc_start(ctx)
@@ -230,6 +235,7 @@ async def get_online_player(ctx):
     await messaging(ctx, f"online: {number_of_players}")
 
 
+@commands.has_role("Bot Master")
 @discord_client.command()
 async def mc(ctx, command):
     response = await mc_client.send_cmd(command)
