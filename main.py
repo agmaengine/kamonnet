@@ -223,7 +223,7 @@ async def mc_rc_close(ctx):
     await messaging(ctx, "disconnect from rcon")
 
 
-@commands.has_role("Bot Master")
+@commands.has_any_role("Bot Master", "Player")
 @discord_client.command()
 async def mc_start(ctx):
     await _mc_start(ctx)
