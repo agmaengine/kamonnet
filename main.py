@@ -222,7 +222,6 @@ async def mc_rc_close(ctx):
 @discord_client.command()
 async def mc_start(ctx):
     await _mc_start(ctx)
-    await messaging(ctx, "connect to rcon")
 
 
 @discord_client.command()
