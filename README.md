@@ -22,7 +22,19 @@ note: for Minecraft version 1.18.2 you need jdk18 (java development kit 18)
 
 \\ automatically start minecraft server section \\
 
-## configure config.json
+## installation
+
+cloning git
+```
+git clone https://github.com/agmaengine/kamonnet.git
+```
+
+create virtual environment
+```
+python -m venv .venv
+```
+
+### configure config.json
 change the **config_template.json** file name to **config.json** 
 fill the <> with valid keys
 
@@ -36,3 +48,19 @@ minecraft **password** is the rcon password can be found or set in **server.prop
 
 [1]: https://discordpy.readthedocs.io/en/latest/discord.html
 [2]: https://docs.microsoft.com/en-us/azure/purview/create-service-principal-azure
+
+### running bot
+activate virtual environment
+**bash**
+```
+source ./.venv/bin/activate
+pip install -r requirements.txt
+python main.py
+```
+**windows**
+```
+.\.venv\Scripts\activate.bat
+pip install -r requirements.txt
+python main.py
+```
+
