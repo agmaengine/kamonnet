@@ -50,7 +50,7 @@ minecraft **password** is the rcon password can be found or set in **server.prop
 [2]: https://docs.microsoft.com/en-us/azure/purview/create-service-principal-azure
 
 ### running bot
-activate virtual environment
+activate virtual environment  
 **bash**
 ```
 source ./.venv/bin/activate
