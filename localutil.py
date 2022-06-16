@@ -1,10 +1,11 @@
 import typing
 import socket
 import subprocess
-from ipaddress import ip_address, IPv4Address
+from ipaddress import IPv6Address, ip_address, IPv4Address, IPv6Address
+import typing
 import httpx
 import re
-import copy
+
 
 
 class MacAddress:
@@ -75,7 +76,7 @@ def poweroff_ssh(ip_str: str, username: str, password: str):
     subprocess.run(['ssh', f'{username}@{ip.compressed}', 'sudo', '-S', 'poweroff'], input=password.encode)
 
 
-def wol(mac_address: MacAddress, ip: IPv4Address=ip_address('255.255.255.255'), port: int=9):
+def wol_strict(mac_address: MacAddress, ip: IPv4Address=ip_address('255.255.255.255'), port: int=9):
     """
     turn target machine on with wake-on-lan protocol
     wake-on-lan does not work on a Wireless Network
@@ -98,14 +99,16 @@ class AgentMachine(httpx.AsyncClient):
         to control the programs agent configuration is required
         this will limit the ability of Kamonnet to control the machine directly
     """
+    ip: typing.Union[IPv4Address, IPv6Address] 
+
     def __init__(
         self, 
-        target_ip_str: str, 
+        ip_str: str, 
         domain_name: typing.Optional[str] =None,
         *args, 
         **kwargs
     ):
-        self.ip = ip_address(target_ip_str)
+        self.ip = ip_address(ip_str)
         self.domain_name = domain_name
         super().__init__(base_url=f"http://{self.domain_name or self.ip}:8000", *args, **kwargs)
 
@@ -118,14 +121,14 @@ class LocalAgentMachine(AgentMachine):
 
     def __init__(
         self,
-        target_ip_str: str,
+        ip_str: str,
         domain_name: typing.Optional[str]=None,
         mac_address: typing.Optional[str]=None,
         *args,
         **kwargs
     ):
         super().__init__(
-            target_ip_str, 
+            ip_str, 
             domain_name=domain_name,
             *args,
             **kwargs
@@ -133,4 +136,21 @@ class LocalAgentMachine(AgentMachine):
         self.mac_address = MacAddress(mac_address)
 
     async def start_machine(self):
-        wol()
+        wol_strict(self.mac_address, self.ip)
+
+
+class GameServer(LocalAgentMachine):
+    async def server_status(self):
+        return await self.get('/server')
+    
+    async def get_game_list(self):
+        return await self.get('/server/list')
+    
+    async def start_server(self, server_name: str):
+        params = {
+            'server' : server_name
+        }
+        return await self.get('/server/start', params=params)
+    
+    async def stop_server(self):
+        return await self.get('/server/stop')
