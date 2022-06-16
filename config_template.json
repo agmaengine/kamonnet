@@ -14,7 +14,7 @@
     },
     "minecraft": {
       "host": "<minecraft host ip>",
-      "port": "<minecraft port>",
+      "port": "<rcon port>",
       "password": "<password for rcon console>"
     }
   }
