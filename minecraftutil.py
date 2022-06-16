@@ -7,6 +7,7 @@ import asyncio
 
 
 class CredentialMinecraft:
+    """this is credential for rcon interface"""
     host: str
     port: int
     password: str
@@ -19,6 +20,7 @@ class CredentialMinecraft:
 
 
 class ClientMinecraft(aiomcrcon.Client):
+    """this is rcon interface class for minecraft"""
     def __init__(self, credentials: CredentialMinecraft):
         super().__init__(host=credentials.host,
                          port=credentials.port,
