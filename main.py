@@ -171,6 +171,16 @@ async def mc(ctx, command):
     print(response)
 
 
+@commands.has_role("Bot Master")
+@discord_client.command()
+async def leave_guild(ctx, id):
+    """leave a specified guild"""
+    guild = discord_client.get_guild(id)
+    guild.leave()
+    await messaging(ctx, f"leaving guild: {id}")
+    return 0
+
+
 if __name__ == "__main__":
     # connect to discord
     asyncio.gather(discord_client.run(configuration['token']['discord']))
