@@ -177,7 +177,7 @@ async def leave_guild(ctx, id):
     """leave a specified guild"""
     id = int(id)
     guild = discord_client.get_guild(id)
-    guild.leave()
+    await guild.leave()
     await messaging(ctx, f"leaving guild: {id}")
     return 0
 
