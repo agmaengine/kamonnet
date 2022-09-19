@@ -175,6 +175,7 @@ async def mc(ctx, command):
 @discord_client.command()
 async def leave_guild(ctx, id):
     """leave a specified guild"""
+    id = int(id)
     guild = discord_client.get_guild(id)
     guild.leave()
     await messaging(ctx, f"leaving guild: {id}")
